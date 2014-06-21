@@ -1,4 +1,4 @@
-if (!exists("merge_data")) {
+if (!exists("merged")) {
   ## Read in the data if it does not exist
   test <- read.table("UCI HAR Dataset/test/X_Test.txt")
   test_labels <- read.table("UCI HAR Dataset/test/Y_Test.txt")
@@ -10,9 +10,7 @@ if (!exists("merge_data")) {
   ## Merge the Train and Test data
   subjects <- rbind(subject_test, subject_train)
   merged <- rbind(test, train)
-  merge_data <- t(merged)
-  subjects <- t(subjects)
-  merge_data <- rbind(subjects, merge_data)
+  merged <- cbind(subjects, merged)
   x <- rbind(test_labels, train_labels)
   labels <- NULL
   for (i in 1:10299) {
@@ -30,12 +28,29 @@ if (!exists("merge_data")) {
         labels <- c(labels, "Laying")
       }
     }
-  colnames(merge_data) <- labels
+  merged <- cbind(labels, merged)
   features <- as.vector(features[,2])
-  features <- c("Subjects", features)
-  rownames(merge_data) <- features
+  features <- c("Activity", "Subjects", features)
+  colnames(merged) <- features
 }
 ## Select only the Mean and Standard Deviation of each measurement
-selectData <- rbind(merge_data[grep("Subjects",features,value=T),],
-                    merge_data[grep("ean",features,value=T),], 
-                    merge_data[grep("std",features,value=T),])
+selectData <- cbind(merged[grep("Activity",features,value=T)],
+                    merged[grep("Subjects",features,value=T)],
+                    merged[grep("ean",features,value=T)], 
+                    merged[grep("std",features,value=T)])
+## Get the average of each variable for each activity and each subject
+data <- NULL
+averages <- NULL
+for (i in 1:30) {
+  data <- selectData[selectData$Subject %in% i,]
+  final <- split(data, data$Activity)
+  for (n in 1:6) {
+    l <- as.data.frame(final[[n]])
+    row <- c(l[1,1], l[1,2])
+    for (m in 3:88) {
+      row <- c(row, mean(l[,m]))
+    }
+    averages <- rbind(averages, row)
+  }
+}
+colnames(averages) <- colnames(data)
