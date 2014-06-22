@@ -46,11 +46,16 @@ for (i in 1:30) {
   final <- split(data, data$Activity)
   for (n in 1:6) {
     l <- as.data.frame(final[[n]])
-    row <- c(l[1,1], l[1,2])
+    row <- c(l[1,2])
     for (m in 3:88) {
       row <- c(row, mean(l[,m]))
     }
     averages <- rbind(averages, row)
   }
 }
+averages <- as.data.frame(averages)
+activities <- rep(c("Laying","Sitting","Standing","Walking",
+                    "Walking_Downstairs","Walking_Upstairs"),
+                  times=30)
+averages <- cbind(activities, averages)
 colnames(averages) <- colnames(data)
