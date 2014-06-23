@@ -1,0 +1,17 @@
+  test = X_Test.txt
+  test_labels = Y_Test.txt
+  train = X_train.txt
+  train_labels = Y_train.txt
+  subject_test = subject_test.txt
+  subject_train = subject_train.txt
+  features = features.txt and also the column names of merged
+  subjects = combination of subject_test and subject_train
+  merged = combination of test, train, subjects, and labels
+  labels = activities
+  selectData = subset of merged with only the mean and std features
+  data = subset of selectData with only one subject for each time through the loop 
+  averages = the data frame for part 5
+  final = split of data based on the activity
+  l = one activity of final
+  row = a row with the means for each feature
+  activities = the first column of averages that shows the activity being done
