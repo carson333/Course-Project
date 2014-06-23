@@ -1,7 +1,7 @@
 Course-Project
 ==============
+ ## Read in the data if it does not exist
 if (!exists("merged")) {
-  ## Read in the data if it does not exist
   test <- read.table("UCI HAR Dataset/test/X_Test.txt")
   test_labels <- read.table("UCI HAR Dataset/test/Y_Test.txt")
   train <- read.table("UCI HAR Dataset/train/X_train.txt")
