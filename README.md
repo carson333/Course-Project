@@ -7,7 +7,7 @@ if (!exists("merged")) {
   subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt")
   subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt")
   features <- read.table("UCI HAR Dataset/features.txt")
-  ## Merge the Train and Test data
+## Merge the Train and Test data
   subjects <- rbind(subject_test, subject_train)
   merged <- rbind(test, train)
   merged <- cbind(subjects, merged)
